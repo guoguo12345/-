@@ -37,8 +37,6 @@
         loginFunc() {
             var phone = document.getElementsByClassName("phone")[0].value;
             var password = document.getElementsByClassName("password")[0].value;
-            console.log(phone);
-            console.log(password);
             this.$http.post("/users/login",{
                 "phone": phone,
                 "password": password
@@ -52,16 +50,19 @@
         save(){
           var phone = document.getElementsByClassName("phone")[0].value;
           var password = document.getElementsByClassName("password")[0].value;
-          console.log(phone);
-          console.log(password);
           this.$http.post("/users/login",{
               "phone": phone,
               "password": password
           }).then(function(data) {
-               this.data = data.data;
-               if(this.data=='密码正确'){
+                this.data = data.data;
+                console.log(this.data);
+                if(this.data=='密码正确'){
                   localStorage.setItem('phone',phone);
                   location.href = '/#/index';
+                }else if(this.data=='密码错误') {
+                    alert("密码错误");
+                }else if(this.data=='用户名不存在') {
+                    alert("用户名不存在");
                 }
           },function(){
               console.log(err);

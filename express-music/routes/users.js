@@ -31,14 +31,15 @@ router.post('/register',function(req,res,next) {
 							console.log(err);
 						}else {
 							console.log('插入成功');
-							res.redirect('/#/main');											
+							// res.redirect('/login');	
+							res.send('用户名不存在');										
 						}
 					})
-					res.send('用户名不存在');
+					// res.send('用户名不存在');
 					//关闭连接
 				}else{
 					console.log('用户名已存在');
-					// res.send('用户名已存在');
+					res.send('用户名已存在');
 				}
 				db.close();
 			}
@@ -69,7 +70,7 @@ router.post('/login',function(req,res,next){
 			}else{
 				var length = results.length;
 				if(length == 0){
-					// res.send('用户名不存在');
+					res.send('用户名不存在');
 				}else{
 					results.forEach(function(value){
 						if(password==value.password){
@@ -78,12 +79,12 @@ router.post('/login',function(req,res,next){
 							req.session.phone = results[0].phone;
 							req.session.password = results[0].password;
 							//跳到首页/main路由
-							// res.send('密码正确');
+							res.send('密码正确');
 						}else{
 							console.log(value.phone);
 							console.log(value.password);
 							console.log('密码错误');
-							// res.send('密码错误');
+							res.send('密码错误');
 						}
 					});
 				}
