@@ -14,6 +14,11 @@
 <script type="es6">
   export default {
     name: 'head-logo',
+    data(){
+      return {
+        isReload: false
+      }
+    },
     methods: {
       searchRouter(){
         this.$store.commit('showDetailPlayer',false);
@@ -22,16 +27,25 @@
     },
     mounted() {
       var phone = localStorage.getItem('phone');
-      if(phone){
-        $('header .login').html('注销');
-        $('header .register').html('欢迎您,'+phone);
-        $('header .register').attr('href','/#/index');
-        $('header .login').tap(function(){
+      var loginDom = document.getElementsByClassName("login")[0];
+      var registerDom = document.getElementsByClassName("register")[0];
+      if(phone) {
+        var isReload = false;
+        loginDom.innerHTML = '注销';
+        registerDom.innerHTML = phone;
+        registerDom.setAttribute('href','/#/index');
+        console.log(this.isReload);
+        if(!this.isReload) {
+          // window.location.reload();
+          this.isReload = true;
+        }
+        console.log(this.isReload);
+        loginDom.onclick = function(){
           localStorage.removeItem('phone');
-          $('header .register').html('注册');
-          $('header .login').html('登录');
-          $('header .register').attr('href','/#/register');
-        });
+          registerDom.innerHTML = '注册';
+          loginDom.innerHTML = '登录';
+          registerDom.setAttribute('href','/#/register');
+        };
       }
     }
   }
